@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}"/>
+</head>
+<body>
+<div id="employee-detail">
+    <table>
+        <tbody>
+        <tr>
+            <td width="25%">{% load static %}<img src="{% static e.image %}" alt="{{ e.first_name }} {{ e.last_name }}" width="100%"></td>
+            <td valign="top">
+                <table class="table-borderless">
+                    <tbody>
+                    <tr>
+                        <td>Name</td>
+                        <td>{{ e.first_name }} {{ e.last_name }}</td>
+                    </tr>
+                    <tr>
+                        <td>Position</td>
+                        <td>{{ e.position}}</td>
+                    </tr>
+                    <tr>
+                        <td>Department</td>
+                        <td>{{ e.department }}</td>
+                    </tr>
+                    <tr>
+                        <td>Phone</td>
+                        <td>{{ e.phone }}</td>
+                    </tr>
+                    <tr>
+                        <td>Email</td>
+                        <td>{{ e.email }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+<script src="{% static 'employee-code.js' %}"></script>
+</html>

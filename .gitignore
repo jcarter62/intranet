@@ -1,0 +1,19 @@
+venv
+data
+*.sqlite3
+.idea
+static
+**/__pycache__
+data
+
+# Django #
+*.log
+*.pot
+*.pyc
+__pycache__
+db.sqlite3
+media
+
+# Backup files #
+*.bak
+
