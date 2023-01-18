@@ -1,47 +1,44 @@
-<!DOCTYPE html>
+{% extends 'base.html' %}
 {% load static %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="{% static 'style.css' %}"/>
-</head>
-<body>
-<div id="employee-detail">
-    <table>
-        <tbody>
-        <tr>
-            <td width="25%">{% load static %}<img src="{% static e.image %}" alt="{{ e.first_name }} {{ e.last_name }}" width="100%"></td>
-            <td valign="top">
-                <table class="table-borderless">
-                    <tbody>
-                    <tr>
-                        <td>Name</td>
-                        <td>{{ e.first_name }} {{ e.last_name }}</td>
-                    </tr>
-                    <tr>
-                        <td>Position</td>
-                        <td>{{ e.position}}</td>
-                    </tr>
-                    <tr>
-                        <td>Department</td>
-                        <td>{{ e.department }}</td>
-                    </tr>
-                    <tr>
-                        <td>Phone</td>
-                        <td>{{ e.phone }}</td>
-                    </tr>
-                    <tr>
-                        <td>Email</td>
-                        <td>{{ e.email }}</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            {% load static %}<img src="{{ e.imagepath }}" alt="{{ e.first_name }} {{ e.last_name }}" width="100%">
+        </div>
+        <div class="col-md-9">
+            <div class="row">
+                <div class="col-md-4">Name</div>
+                <div class="col-md-8">{{ e.first_name }} {{ e.last_name }}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">Position</div>
+                <div class="col-md-8">{{ e.position }}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">Department</div>
+                <div class="col-md-8">{{ e.department }}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">Phone</div>
+                <div class="col-md-8">{{ e.phone }}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">Email</div>
+                <div class="col-md-8">{{ e.email }}</div>
+            </div>
+
+            {% if edit_allowed %}
+            <div class="row">
+                <form action="./edit/{{ e.emp_id }}" method="GET">
+                    {% csrf_token %}
+                    <div class="col-md-4"><button type="submit" class="btn btn-success">Edit</button></div>
+                    <div class="col-md-8">&nbsp;</div>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+    </div>
 </div>
-</body>
-<script src="{% static 'employee-code.js' %}"></script>
-</html>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                {% load static %}<img src="{{ e.imagepath }}" alt="{{ e.first_name }} {{ e.last_name }}" width="100%">
+            </div>
+            <div class="col-md-9">
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-4">First Name</div>
+                        <div class="col-md-8"><input class="form-control" type="text" id="first_name" name="first_name"
+                                                     value="{{ e.first_name }}"/></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">Last Name</div>
+                        <div class="col-md-8"><input class="form-control" type="text" name="last_name"
+                                                     value="{{ e.last_name }}"/></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">Position</div>
+                        <div class="col-md-8"><input class="form-control" type="text" name="position"
+                                                     value="{{ e.position }}"/></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">Department</div>
+                        <div class="col-md-8"><input class="form-control" type="text" name="department"
+                                                     value="{{ e.department }}"/></div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">Phone</div>
+                        <div class="col-md-8"><input class="form-control" type="text" name="phone"
+                                                     value="{{ e.phone }}"/></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">Email</div>
+                        <div class="col-md-8"><input class="form-control" type="email" name="email"
+                                                     value="{{ e.email }}"/></div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <button type="submit" class="btn btn-success">Save</button>
+                        </div>
+                        <div class="col-md-8">&nbsp;</div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -143,7 +143,9 @@ function generate_employee_table(key, direction) {
     sort_employees(key, direction);
 
     // generate table with employees data
-    let s = "<table class='table table-striped table-bordered table-hover table-condensed'>";
+    let s = "<table class='table table-striped table-info'>";
+    // let s = "<table class='table table-striped table-bordered table-hover table-condensed'>";
+
     let name_sort = sort_svg("name");
     let dpt_sort = sort_svg("department");
     let position_sort = sort_svg("position");
@@ -151,13 +153,35 @@ function generate_employee_table(key, direction) {
     let id_sort = sort_svg("emp_id");
     let email_sort = sort_svg("email");
 
-    s += "<thead><tr><th onclick='click_sort(\"name\");'>Name" + name_sort + "</th>";
-    s += "<th onclick='click_sort(\"email\")'>Email" + email_sort + "</th>";
-    s += "<th onclick='click_sort(\"department\")'>Department" + dpt_sort + "</th>";
-    s += "<th onclick='click_sort(\"position\")'>Position" + position_sort + "</th>";
-    s += "<th onclick='click_sort(\"phone\");'>Phone" + phone_sort + "</th>";
-    s += "<th onclick='click_sort(\"emp_id\");'>ID" + id_sort + "</th></tr></thead>";
-    s += "<tbody>";
+    // <div className="container text-left">
+    //     <div className="row text-bg-primary">
+    //         <div className="col">{{description}}</div>
+    //         <div className="col">&nbsp;</div>
+    //     </div>
+    //     {% for f in files %}
+    //     <div className="row">
+    //         <div className="col">
+    //             {% if f.islocal %}
+    //             <a href="/{{ f.file }}" target="_blank">{{f.name}} - Download</a>
+    //             {% else %}
+    //             <a href="{{ f.url }}">{{f.name}}</a>
+    //             {% endif %}
+    //         </div>
+    //     </div>
+    //     {% endfor %}
+    // </div>
+
+
+    s += "<div class='container text-left'>";
+    s += "<div class='row text-bg-primary'>";
+    s += "<div class='col-md-2' onclick='click_sort(\"name\");'>Name" + name_sort + "</div>";
+    s += "<div class='col-md-2' onclick='click_sort(\"email\")'>Email" + email_sort + "</div>";
+    s += "<div class='col-md-2' onclick='click_sort(\"department\")'>Department" + dpt_sort + "</div>";
+    s += "<div class='col-md-3' onclick='click_sort(\"position\")'>Position" + position_sort + "</div>";
+    s += "<div class='col-md-2' onclick='click_sort(\"phone\");'>Phone" + phone_sort + "</div>";
+    s += "<div class='col-md-1' onclick='click_sort(\"emp_id\");'>ID" + id_sort + "</div>";
+    s += "</div>";
+    //s += "<tbody>";
     for (var i = 0; i < employees.length; i++) {
 
         if (display_employee(employees[i], search_term)) {
@@ -166,21 +190,19 @@ function generate_employee_table(key, direction) {
             details_url += "' >" + employees[i].first_name + ' ' + employees[i].last_name + "</a>";
             let img_url = employees[i].image;
 
-            s += "<tr onmouseover='save_employee_id(" + employees[i].emp_id + ")' >";
-
-            s += "<td><img src='" + img_url + "' width='30' />&nbsp;&nbsp;" + details_url + "</td>";
-            s += "<td>" + employees[i].email + "</td>";
-            s += "<td>" + employees[i].department + "</td>";
-            s += "<td>" + employees[i].position + "</td>";
-            s += "<td>" + employees[i].phone + "</td>";
-            s += "<td>" + employees[i].emp_id + "</td>";
-            s += "</tr>";
+            s += "<div class='row' onmouseover='save_employee_id(" + employees[i].emp_id + ")' >";
+            s += "<div class='col-md-2'><img src='" + img_url + "' width='30' />&nbsp;&nbsp;" + details_url + "</div>";
+            s += "<div class='col-md-2'>" + employees[i].email + "</div>";
+            s += "<div class='col-md-2'>" + employees[i].department + "</div>";
+            s += "<div class='col-md-3'>" + employees[i].position + "</div>";
+            s += "<div class='col-md-2'>" + employees[i].phone + "</div>";
+            s += "<div class='col-md-1'>" + employees[i].emp_id + "</div>";
+            s += "</div>"; // row
         }
     }
-    s += "</tbody>";
-    s += "</table>";
-    let table = document.getElementById("employeestable");
-    table.innerHTML = s;
+    s += "</div>"; // container
+    let div_container = document.getElementById("employeestable");
+    div_container.innerHTML = s;
 
     // update sortby and direction in dom object
     function update_sortby() {
@@ -193,7 +215,8 @@ function generate_employee_table(key, direction) {
         sortby.innerHTML = txt;
     }
 
-    update_sortby();
+    // Not needed anymore.
+    // update_sortby();
 
     // update search term in dom object
     function update_search_term() {

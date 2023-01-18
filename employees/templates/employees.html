@@ -1,55 +1,26 @@
-<!DOCTYPE html>
+{% extends 'base.html' %}
 {% load static %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="{% static 'style.css' %}"/>
-</head>
-<body>
-<table class="top-table">
-    <tbody>
-    <tr>
-        <td>
-            <div class="hdr" style="font-size: 1.25rem;">
-                Westlands Water District - Employees<br>
-            </div>
-        </td>
-        <td>
-            <div>
-                <span id="sortby">Sort by: name, asc <br></span>
-                <span id="searchby">Search: <input type="text" value="" id="searchvalue" onkeyup="input_search();"><br></span>
-            </div>
-        </td>
-    </tr>
-
-    </tbody>
-</table>
-<div id="employeestable">
-
-</div>
-<table>
-        <tr><a href="/">Home</a></tr>
-</table>
+{% block content %}
+    <div id="employeestable"></div>
 </body>
 <!-- inline javascript to create employees list of objects -->
 <script type="text/javascript">
     var employees = [
         {% for e in employees %}
-        {
-            "emp_id": {{ e.emp_id }},
-            "first_name": "{{ e.first_name }}",
-            "last_name": "{{ e.last_name }}",
-            "email": "{{ e.email }}",
-            "department": "{{ e.department }}",
-            "position": "{{ e.position }}",
-            "phone": "{{ e.phone }}",
-            "image": "{% static e.image %}",
-            "start_date": "{{ e.start_date }}",
-            "end_date": "{{ e.end_date }}",
-        },
+            {
+                "emp_id": {{ e.emp_id }},
+                "first_name": "{{ e.first_name }}",
+                "last_name": "{{ e.last_name }}",
+                "email": "{{ e.email }}",
+                "department": "{{ e.department }}",
+                "position": "{{ e.position }}",
+                "phone": "{{ e.phone }}",
+                "image": "{{ e.imagepath }}",
+                "start_date": "{{ e.start_date }}",
+                "end_date": "{{ e.end_date }}",
+            },
         {% endfor %}
     ];
 </script>
 <script src="{% static 'employee-code.js' %}"></script>
-</html>
+{% endblock %}
