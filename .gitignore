@@ -1,10 +1,8 @@
 venv
-data
 *.sqlite3
 .idea
-static
 **/__pycache__
-data
+
 
 # Django #
 *.log
