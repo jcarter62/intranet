@@ -42,3 +42,15 @@ class SystemInfoAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 
 
 admin.site.register(models.SystemInfo, SystemInfoAdmin)
+
+
+class SessionInfoAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display_links = ('session_id',)
+    list_display = ['record_id', 'session_id', 'key_name', 'key_text', 'created', 'updated']
+    list_editable = ['key_name', 'key_text']
+    search_fields = ['session_id', 'key_name']
+    list_per_page = 10
+
+
+admin.site.register(models.SessionInfo, SessionInfoAdmin)
+
