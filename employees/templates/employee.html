@@ -9,35 +9,54 @@
         </div>
         <div class="col-md-9">
             <div class="row">
-                <div class="col-md-4">Name</div>
-                <div class="col-md-8">{{ e.first_name }} {{ e.last_name }}</div>
+                <div class="col-md-3">Name</div>
+                <div class="col-md-9">{{ e.first_name }} {{ e.last_name }}</div>
             </div>
             <div class="row">
-                <div class="col-md-4">Position</div>
-                <div class="col-md-8">{{ e.position }}</div>
+                <div class="col-md-3">Position</div>
+                <div class="col-md-9">{{ e.position }}</div>
             </div>
             <div class="row">
-                <div class="col-md-4">Department</div>
-                <div class="col-md-8">{{ e.department }}</div>
+                <div class="col-md-3">Department</div>
+                <div class="col-md-9">{{ e.department }}</div>
             </div>
             <div class="row">
-                <div class="col-md-4">Phone</div>
-                <div class="col-md-8">{{ e.phone }}</div>
+                <div class="col-md-3">Phone</div>
+                <div class="col-md-9">{{ e.phone }}</div>
             </div>
             <div class="row">
-                <div class="col-md-4">Email</div>
-                <div class="col-md-8">{{ e.email }}</div>
+                <div class="col-md-3">Email</div>
+                <div class="col-md-9">{{ e.email }}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">Notes</div>
+                <div class="col-md-9">{{ e.notes }}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">Started</div>
+                <div class="col-md-9">{{ e.start_date }}</div>
             </div>
 
             {% if edit_allowed %}
             <div class="row">
-                <form action="./edit/{{ e.emp_id }}" method="GET">
-                    {% csrf_token %}
-                    <div class="col-md-4"><button type="submit" class="btn btn-success">Edit</button></div>
-                    <div class="col-md-8">&nbsp;</div>
-                </form>
+                <div class="col">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal"
+                    onclick="location.href='./edit/{{ e.id }}'">Edit</button>
+                </div>
             </div>
             {% endif %}
+            <div class="row">
+                <div class="col">
+                    &nbsp;
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <button type="button" class="btn btn-secondary"
+                    onclick="location.href='/employees'">Employee List</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>

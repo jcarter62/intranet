@@ -99,11 +99,15 @@ class Session_Info_Data:
 class Sys_Settings:
     orgname = ""
     supportlink = ""
+    allowed_domains = []
+    default_email_from = ''
 
     # create constructor and initialize variables
     def __init__(self):
         self.orgname = self.get_orgname()
         self.supportlink = self.get_supportlink()
+        self.allowed_domains = self.get_allowed_domains()
+        self.default_email_from = self.get_default_email_from()
 
     # load orgname from SystemInfo
     def get_orgname(self):
@@ -122,5 +126,23 @@ class Sys_Settings:
         except:
             pass
         return supportlink
+
+    # load allowed_domains from SystemInfo
+    def get_allowed_domains(self):
+        allowed_domains = ['secret_domain.com']
+        try:
+            allowed_domains = SystemInfo.objects.get(setting_name='allowed_domains').setting_text.split(',')
+        except:
+            pass
+        return allowed_domains
+
+    # load default_email_from from SystemInfo
+    def get_default_email_from(self):
+        default_email_from = 'user@domain.com'
+        try:
+            default_email_from = SystemInfo.objects.get(setting_name='default_email_from').setting_text
+        except:
+            pass
+        return default_email_from
 
 

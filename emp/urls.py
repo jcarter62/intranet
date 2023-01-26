@@ -15,11 +15,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from home.models import Sys_Settings
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-
+    path('', include('home.urls'), name='home'),
     path('authenticate/', include('authenticate.urls')),
     path('employees/', include('employees.urls')),
-    path('', include('home.urls')),
+    path('admin/', admin.site.urls),
 ]
+
+# Change Site Name, header, and index title
+si = Sys_Settings()
+admin.site.site_header = si.orgname
+admin.site.site_title = si.orgname
+admin.site.index_title = si.orgname
