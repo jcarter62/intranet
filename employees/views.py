@@ -8,6 +8,7 @@ from datetime import datetime
 import os
 from .forms import EmployeeEditForm
 from django.core.files.storage import FileSystemStorage
+import arrow
 
 
 def determine_image_path(img) -> str:
@@ -25,8 +26,18 @@ def determine_image_path(img) -> str:
 
     return result
 
+
+def employees_all_show_expired(request):
+    show_expired = True
+    return employees_all(request, show_expired)
+
+
+def employees_all_exclude_expired(request):
+    show_expired = False
+    return employees_all(request, show_expired)
+
 # Create your views here.
-def employees_all(request):
+def employees_all(request, show_expired):
     # set default image
     default_image = '/static/images/blank.png'
     base_folder = app_settings.BASE_DIR
@@ -37,19 +48,29 @@ def employees_all(request):
         e.imagepath = determine_image_path(e.image)
 
     emplist.sort(key=lambda x: x.last_name + x.first_name)
-    # remove records where current date is after end date
-    # determine today's date and store as a string
-    today = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.000Z')
+
+    elist = []
+
+    today = arrow.now()
     for e in emplist:
-        try:
-            if e.end_date < today:
-                emplist.remove(e)
-        except Exception as e:
-            pass
-#     emplist = [e for e in emplist if e.end_date >= today]
+        if show_expired:
+            elist.append(e)
+        else:
+            try:
+                if e.end_date is None:
+                    elist.append(e)
+                else:
+                    end_date = arrow.get(e.end_date)
+                    if end_date > today:
+                        elist.append(e)
+            except Exception as ex:
+                msg = e.__str__() + ':' + ex.__str__()
+                print(msg)
+                elist.append(e)
+
     si = Sys_Settings()
     context = {
-        'employees': emplist,
+        'employees': elist,
         'orgname': si.orgname,
         'title': 'Employee List',
         'supportlink': si.supportlink

@@ -9,7 +9,7 @@ class EmployeeEditForm(ModelForm):
         fields = ['first_name', 'last_name', 'position', 'department',
                   'start_date', 'end_date', 'email', 'phone', 'notes']
         widgets = {
-            'start_date': forms.DateTimeInput(attrs={'type': 'date'}),
-            'end_date': forms.DateTimeInput(attrs={'type': 'date'}),
+            'start_date': forms.DateInput(attrs={'type': 'date'}),
+            'end_date': forms.DateInput(attrs={'type': 'date'}),
             'notes': forms.Textarea(attrs={'rows': 4, 'cols': 15}),
         }

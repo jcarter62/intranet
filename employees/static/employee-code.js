@@ -31,22 +31,22 @@ function generate_employee_table(key, direction) {
 
     // determine if we should display the employee
     function display_employee(employee, search_text) {
-        let dateOK = false;
-        let today = new Date();
-        let start_date = new Date(employee.start_date);
-        let end_date = new Date(employee.end_date);
-        if (start_date <= today && today <= end_date) {
-            dateOK = true;
-        }
+        // let dateOK = false;
+        // let today = new Date();
+        // let start_date = new Date(employee.start_date);
+        // let end_date = new Date(employee.end_date);
+        // if (start_date <= today && today <= end_date) {
+        //     dateOK = true;
+        // }
 
         if (search_text == "") {
-            return dateOK;
+            return true;
         }
 
         let alltext = employee.first_name +
                 employee.last_name + employee.position + employee.phone +
                 employee.email + employee.emp_id + employee.department;
-        if (alltext.toLowerCase().indexOf(search_text.toLowerCase()) >= 0 && dateOK) {
+        if (alltext.toLowerCase().indexOf(search_text.toLowerCase()) >= 0) {
             return true;
         } else {
             return false;

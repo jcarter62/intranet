@@ -87,10 +87,17 @@ WSGI_APPLICATION = 'emp.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+#
+# determine if environment has DBPATH variable, and use this
+# as the full path to the database file, otherwise use the
+# default path
+#
+dbpath = os.environ.get('DBPATH', BASE_DIR / 'db.sqlite3')
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': dbpath,
     }
 }
 
