@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import os
+import logging
 
 # from home import views as home_views
 # from employees import views as emp_views
@@ -27,7 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-tx^g3*k7@_b+uv4!nknmp0e_zf#yc&7)u54=#%0=@@#4%3u&e('
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '192.168.1.138']
 
@@ -59,6 +60,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'request_logging.middleware.LoggingMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'emp.urls'
@@ -139,6 +142,8 @@ STATICFILES_DIRS = [
 ]
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.environ.get('STATIC_ROOT', BASE_DIR / 'static')
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -163,3 +168,30 @@ LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 HOME_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+    },
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s, %(asctime)s, %(message)s'
+        },
+        'simple': {
+            'format': '%(asctime)s HOSTNAME APP_NAME: %(message)s'
+        },
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['console'],
+            'level': 'INFO',  # change debug level as appropiate
+            'propagate': False,
+        },
+    },
+}

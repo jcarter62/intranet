@@ -1,5 +1,8 @@
 django
 django-import-export
 django-crispy-forms
+django-request-logging
 arrow
-wfastcgi
+waitress
+whitenoise
+
