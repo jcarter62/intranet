@@ -2,6 +2,9 @@ venv
 *.sqlite3
 .idea
 **/__pycache__
+files/
+images/
+data/
 
 
 # Django #

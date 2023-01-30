@@ -28,9 +28,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-tx^g3*k7@_b+uv4!nknmp0e_zf#yc&7)u54=#%0=@@#4%3u&e('
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '192.168.1.138']
+CSRF_TRUSTED_ORIGINS = ['127.0.0.1', 'http://localhost', '192.168.1.138']
 
 # Application definition
 
@@ -61,7 +62,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'request_logging.middleware.LoggingMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'emp.urls'
@@ -134,22 +134,13 @@ USE_I18N = True
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.1/howto/static-files/
-
-STATICFILES_DIRS = [
-    BASE_DIR / "static/",
-    BASE_DIR / "static/files/"
-]
-
-STATIC_URL = 'static/'
-STATIC_ROOT = os.environ.get('STATIC_ROOT', BASE_DIR / 'static')
+# https://docs.djangoproject.com/en/4.1/howto/fistaticles/
 
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 
 # get environment variable or return default
 def get_env_variable(var_name, default=None):
@@ -158,6 +149,11 @@ def get_env_variable(var_name, default=None):
     except KeyError:
         return default
 
+
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
 
 DEFAULT_FROM_EMAIL = get_env_variable('DEFAULT_FROM_EMAIL', 'admin@localhost')
 EMAIL_HOST = get_env_variable('EMAIL_HOST', 'localhost')

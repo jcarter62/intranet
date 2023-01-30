@@ -30,9 +30,15 @@ def favicon(request):
 
 # method to return absolute path to file in static folder
 def get_static_path(filename):
-    bd = settings.BASE_DIR.__str__().replace('\\', '/')
-    filestr = filename.__str__()
-    fullpath = os.path.join(bd, filestr).replace('\\', '/')
+    parts = filename.__str__().split('/')
+    base_folder = settings.BASE_DIR.__str__()
+    fullpath = base_folder
+    for p in parts:
+        if p > '':
+            fullpath = os.path.join(fullpath, p)
+#    bd = settings.BASE_DIR.__str__() # .replace('\\', '/')
+#    filestr = filename.__str__()
+#    fullpath = os.path.join(bd, filestr) # .replace('\\', '/')
     return fullpath
 
 

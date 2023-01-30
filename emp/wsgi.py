@@ -9,12 +9,13 @@ https://docs.djangoproject.com/en/4.1/howto/deployment/wsgi/
 
 import os
 from django.core.wsgi import get_wsgi_application
-from whitenoise import WhiteNoise
+# from whitenoise import WhiteNoise
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'emp.settings')
-cwd = os.getcwd()
-staticpath = os.path.join(cwd, 'static')
+
+# cwd = os.getcwd()
+# staticpath = os.path.join(cwd, 'static')
+# static_root = os.environ.get('STATIC_ROOT', staticpath)
 
 application = get_wsgi_application()
-application = WhiteNoise(application, root=staticpath)
-application.add_files(staticpath, prefix='employees/')
+# application = WhiteNoise(application, root=static_root)

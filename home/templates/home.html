@@ -12,7 +12,7 @@
       <div class="col">
             {% if f.islocal %}
                 {% if f.file_exists %}
-                    <a href="/{{ f.file }}" target="_blank">{{ f.name }}</a>&nbsp;
+                    <a href="{{ f.file }}" target="_blank">{{ f.name }}</a>&nbsp;
                 {% else %}
                     <a href="#" data-toggle="tooltip" data-placement="top" title="File not found" class="text-danger">{{ f.name }}</a>
                 {% endif %}

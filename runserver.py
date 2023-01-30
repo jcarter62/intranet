@@ -10,4 +10,3 @@ logger = logging.getLogger('waitress')
 logger.setLevel(logging.INFO)
 
 serve(application, host=host, port=port, threads=10)
-

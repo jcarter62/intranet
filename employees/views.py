@@ -9,11 +9,18 @@ import os
 from .forms import EmployeeEditForm
 from django.core.files.storage import FileSystemStorage
 import arrow
+import logging
 
 
 def determine_image_path(img) -> str:
+    try:
+        static_root = os.environ['STATIC_ROOT']
+    except KeyError:
+        static_root = os.path.join(app_settings.BASE_DIR, 'static')
+
     default_image = '/static/images/blank.png'
-    base_folder = app_settings.BASE_DIR
+
+    base_folder = static_root
 
     img_file_path = img.__str__()
 
@@ -45,7 +52,7 @@ def employees_all(request, show_expired):
 
     emplist = list(em.objects.all())
     for e in emplist:
-        e.imagepath = determine_image_path(e.image)
+        e.imagepath = e.image
 
     emplist.sort(key=lambda x: x.last_name + x.first_name)
 
@@ -90,7 +97,7 @@ def get_user_email_address(request):
 def employee(request, id):
     user_email = get_user_email_address(request)
     e = em.objects.get(emp_id=id)
-    e.imagepath = determine_image_path(e.image)
+    e.imagepath = e.image
     si = Sys_Settings()
     if user_email == 'superuser' or user_email == e.email:
         edit_allowed = True
@@ -149,7 +156,7 @@ def employee_edit(request, id):
 
     else:
         e = em.objects.get(emp_id=id)
-        e.imagepath = determine_image_path(e.image)
+        e.imagepath = e.image
         form = EmployeeEditForm(instance=e)
         context = {
             'form': form,
@@ -159,6 +166,11 @@ def employee_edit(request, id):
             'supportlink': si.supportlink
         }
         return render(request, 'employee_edit.html', context=context)
+
+
+def default_image_path():
+    result = os.path.join(app_settings.BASE_DIR, 'images')
+    return result
 
 
 # only post expected.
@@ -171,16 +183,20 @@ def employee_edit_image(request, id):
         print(file_name)
         print(file_size)
         # determine server path for file
-        base_folder = app_settings.BASE_DIR
-        fullpath = os.path.join(base_folder, 'static', 'images', file_name)
-        relative_path = os.path.join('static', 'images', file_name)
+        base_folder = default_image_path()
+        fullpath = os.path.join(base_folder, file_name)
+        relative_path = os.path.join('images', file_name)
         relative_path = relative_path.replace('\\', '/')
         # save file to server
         fs = FileSystemStorage()
-        fs.save(fullpath, file_obj)
+        save_results = fs.save(fullpath, file_obj)
+        # log new file name to logger
+        if save_results[0] != '/':
+            save_results = '/' + save_results
+        print(f'New file uploaded: {save_results}')
         # update database record
         e = em.objects.get(emp_id=id)
-        e.image = relative_path
+        e.image = save_results
         e.save()
         messages.success(request, 'Employee image updated successfully.')
         url = resolve_url('employee', id)
