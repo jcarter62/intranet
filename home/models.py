@@ -9,7 +9,7 @@ class File(models.Model):
     name = models.CharField(max_length=100, null=True, blank=True)
     page = models.CharField(max_length=100, null=True, blank=True)
     filetype = models.CharField(max_length=1, choices=CHOICES_FT, default='L')
-    file = models.FileField(upload_to='static/files/', null=True, blank=True)
+    file = models.FileField(upload_to='files/', null=True, blank=True)
     url = models.CharField(max_length=200, null=True, blank=True, default='')
 
     def __str__(self):

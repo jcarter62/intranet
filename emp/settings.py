@@ -14,8 +14,13 @@ from pathlib import Path
 import os
 import logging
 
-# from home import views as home_views
-# from employees import views as emp_views
+
+# get environment variable or return default
+def get_env_variable(var_name, default=None):
+    try:
+        return os.environ[var_name]
+    except KeyError:
+        return default
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,13 +30,20 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-tx^g3*k7@_b+uv4!nknmp0e_zf#yc&7)u54=#%0=@@#4%3u&e('
+secret_key_setting = get_env_variable('SECRET_KEY', 'standard key here')
+SECRET_KEY = secret_key_setting
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+debug_setting = get_env_variable('DEBUG_SETTING', 'True')
+if debug_setting == 'True':
+    DEBUG = True
+else:
+    DEBUG = False
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '192.168.1.138']
-CSRF_TRUSTED_ORIGINS = ['127.0.0.1', 'http://localhost', '192.168.1.138']
+
+trusted_origin = get_env_variable('TRUSTED_ORIGIN', 'http://localhost')
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1', trusted_origin]
 
 # Application definition
 
@@ -142,12 +154,6 @@ USE_TZ = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# get environment variable or return default
-def get_env_variable(var_name, default=None):
-    try:
-        return os.environ[var_name]
-    except KeyError:
-        return default
 
 
 STATIC_URL = '/static/'
