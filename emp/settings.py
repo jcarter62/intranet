@@ -13,14 +13,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 import os
 import logging
-
-
-# get environment variable or return default
-def get_env_variable(var_name, default=None):
-    try:
-        return os.environ[var_name]
-    except KeyError:
-        return default
+from decouple import config
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -30,20 +23,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-secret_key_setting = get_env_variable('SECRET_KEY', 'standard key here')
-SECRET_KEY = secret_key_setting
+SECRET_KEY = config('SECRET_KEY', default='')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-debug_setting = get_env_variable('DEBUG_SETTING', 'True')
-if debug_setting == 'True':
-    DEBUG = True
-else:
-    DEBUG = False
+DEBUG = config('DEBUG', default=False, cast=bool)
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost', cast=lambda v: [s.strip() for s in v.split(',')])
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '192.168.1.138']
+CSRF_TRUSTED_ORIGINS = config('CSRF_TRUSTED_ORIGINS', default='http://localhost', cast=lambda v: [s.strip() for s in v.split(',')])
+CSRF_USE_SESSIONS = config('CSRF_USE_SESSIONS', default=True, cast=bool)
 
-trusted_origin = get_env_variable('TRUSTED_ORIGIN', 'http://localhost')
-CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1', trusted_origin]
 
 # Application definition
 
@@ -107,7 +95,7 @@ WSGI_APPLICATION = 'emp.wsgi.application'
 # as the full path to the database file, otherwise use the
 # default path
 #
-dbpath = os.environ.get('DBPATH', BASE_DIR / 'db.sqlite3')
+dbpath = config('DBPATH', default='db.sqlite3')
 
 DATABASES = {
     'default': {
@@ -155,15 +143,14 @@ USE_TZ = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 
-DEFAULT_FROM_EMAIL = get_env_variable('DEFAULT_FROM_EMAIL', 'admin@localhost')
-EMAIL_HOST = get_env_variable('EMAIL_HOST', 'localhost')
-EMAIL_PORT = get_env_variable('EMAIL_PORT', '25')
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='admin@localhost')
+EMAIL_HOST = config('EMAIL_HOST', default='localhost')
+EMAIL_PORT = config('EMAIL_PORT', default=25, cast=int)
 
 LOGIN_REDIRECT_URL = ''
 LOGIN_URL = 'login'

@@ -2,6 +2,7 @@ django
 django-import-export
 django-crispy-forms
 django-request-logging
+python-decouple
 arrow
 waitress
 whitenoise
