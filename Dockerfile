@@ -8,18 +8,34 @@ RUN apt-get update
 # RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get -y install tzdata
 RUN DEBIAN_FRONTEND=noninteractive TZ=America/Los_Angeles apt-get -y install tzdata
 
+RUN apt-get install git -y
 RUN apt-get install python3 -y && apt-get install python3-pip -y && apt-get install python3-venv -y
 RUN apt-get install sqlite3 libsqlite3-dev -y
 RUN apt-get install nano -y
-RUN apt-get install dos2unix -y
 
 RUN apt-get install nginx -y
 RUN service nginx stop
-COPY ./nginx.conf /etc/nginx/sites-enabled/default
-RUN service nginx start
 #
 RUN mkdir /app
 WORKDIR /app
+#
+RUN git clone https://github.com/jcarter62/intranet.git .
+#
+COPY ./.env-docker /app/.env
+# COPY ./requirements.txt /app
+#
+COPY /app/nginx.conf /etc/nginx/sites-enabled/default
+RUN service nginx start
+#
+RUN python3 -m venv venv
+RUN venv/bin/pip3 install -r ./requirements.txt
+
+# ENTRYPOINT ["python3"]
+# CMD ["manage.py", "runserver" ]
+
+#ENTRYPOINT ["bash"]
+#CMD [" "]
+
 
 #RUN mkdir /app/authenticate
 #RUN mkdir /app/emp
@@ -48,14 +64,3 @@ WORKDIR /app
 #
 #RUN chmod +x /app/start
 #
-COPY ./.env-docker /app/.env
-COPY ./requirements.txt /app
-#
-RUN python3 -m venv venv
-RUN venv/bin/pip3 install -r ./requirements.txt
-
-# ENTRYPOINT ["python3"]
-# CMD ["manage.py", "runserver" ]
-
-#ENTRYPOINT ["bash"]
-#CMD [" "]
