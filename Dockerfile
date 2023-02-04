@@ -24,7 +24,7 @@ RUN git clone https://github.com/jcarter62/intranet.git .
 COPY ./.env-docker /app/.env
 # COPY ./requirements.txt /app
 #
-COPY /app/nginx.conf /etc/nginx/sites-enabled/default
+COPY ./nginx.conf /etc/nginx/sites-enabled/default
 RUN service nginx start
 #
 RUN python3 -m venv venv
