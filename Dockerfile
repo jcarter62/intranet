@@ -29,6 +29,7 @@ RUN service nginx start
 #
 RUN python3 -m venv venv
 RUN venv/bin/pip3 install -r ./requirements.txt
+RUN chmod +x ./start
 
 # ENTRYPOINT ["python3"]
 # CMD ["manage.py", "runserver" ]
