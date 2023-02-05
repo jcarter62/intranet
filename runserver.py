@@ -3,9 +3,6 @@ from emp.wsgi import application
 import os
 import logging
 from decouple import config
-import test
-
-test.dumpe()
 
 host = config('HOST', 'localhost')
 port = config('PORT', '8000')

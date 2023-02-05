@@ -12,17 +12,17 @@ RUN apt-get install git -y
 RUN apt-get install python3.10 -y && apt-get install python3-pip -y && apt-get install python3-venv -y
 RUN apt-get install sqlite3 libsqlite3-dev -y
 RUN apt-get install nano -y
-
-RUN apt-get install nginx -y
-RUN service nginx stop
 #
 RUN mkdir /app
 WORKDIR /app
 #
+RUN apt-get install nginx -y
+RUN service nginx stop
+#
 RUN git clone https://github.com/jcarter62/intranet.git .
 #
 COPY ./.env-docker /app/.env
-# COPY ./requirements.txt /app
+RUN mkdir /app/logs
 #
 COPY ./nginx.conf /etc/nginx/sites-enabled/default
 RUN service nginx start

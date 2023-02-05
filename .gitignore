@@ -6,7 +6,7 @@ files/
 images/
 data/
 .env
-
+logs/
 
 # Django #
 *.log
