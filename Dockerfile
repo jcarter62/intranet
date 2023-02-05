@@ -9,7 +9,7 @@ RUN apt-get update
 RUN DEBIAN_FRONTEND=noninteractive TZ=America/Los_Angeles apt-get -y install tzdata
 
 RUN apt-get install git -y
-RUN apt-get install python3 -y && apt-get install python3-pip -y && apt-get install python3-venv -y
+RUN apt-get install python3.10 -y && apt-get install python3-pip -y && apt-get install python3-venv -y
 RUN apt-get install sqlite3 libsqlite3-dev -y
 RUN apt-get install nano -y
 
