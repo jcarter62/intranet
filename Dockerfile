@@ -25,11 +25,18 @@ COPY ./.env-docker /app/.env
 RUN mkdir /app/logs
 #
 COPY ./nginx.conf /etc/nginx/sites-enabled/default
-RUN service nginx start
+# RUN service nginx start
 #
 RUN python3 -m venv venv
 RUN venv/bin/pip3 install -r ./requirements.txt
 RUN chmod +x ./start
+
+# create self-signed certificate
+RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/nginx.key -out /etc/ssl/certs/nginx.crt
+# -subj "/C=US/ST=California/L=Fresno/O=IT/CN=wwddata.com"
+# -subj "/C=US/ST=California/L=San Francisco/O=IT/CN=example.com"
+
+
 
 # ENTRYPOINT ["python3"]
 # CMD ["manage.py", "runserver" ]
