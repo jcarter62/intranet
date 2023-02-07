@@ -5,7 +5,7 @@ venv
 files/
 images/
 data/
-.env
+.env*
 logs/
 
 # Django #

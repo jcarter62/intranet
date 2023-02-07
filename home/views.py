@@ -79,6 +79,16 @@ def homewithpage(request, page_name):
 
     filelist.sort(key=lambda x: x.sortkey)
 
+    #
+    # if local file starts with f, add / to beginning of file name.
+    #
+    for f in filelist:
+        if f.filetype == 'F':
+            try:
+                if f.file.name[0] == 'f':
+                    f.file.name = '/' + f.file.name
+            except Exception as e:
+                print(e.__str__())
 
     ss = Sys_Settings()
     context = {

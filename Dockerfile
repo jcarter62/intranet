@@ -1,5 +1,4 @@
 FROM ubuntu
-# RUN apt-get install nginx -y
 
 RUN apt-get update
 # ref: https://serverfault.com/a/992421
@@ -21,54 +20,14 @@ RUN service nginx stop
 #
 RUN git clone https://github.com/jcarter62/intranet.git .
 #
-COPY ./.env-docker /app/.env
+COPY .env /app/.env
 RUN mkdir /app/logs
 #
-COPY ./nginx.conf /etc/nginx/sites-enabled/default
-# RUN service nginx start
+COPY nginx.conf /etc/nginx/sites-enabled/default
 #
 RUN python3 -m venv venv
 RUN venv/bin/pip3 install -r ./requirements.txt
-RUN chmod +x ./start
+RUN mv start start.sh
+RUN chmod +x start.sh
 
-# create self-signed certificate
-RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/nginx.key -out /etc/ssl/certs/nginx.crt
-# -subj "/C=US/ST=California/L=Fresno/O=IT/CN=wwddata.com"
-# -subj "/C=US/ST=California/L=San Francisco/O=IT/CN=example.com"
-
-
-
-# ENTRYPOINT ["python3"]
-# CMD ["manage.py", "runserver" ]
-
-#ENTRYPOINT ["bash"]
-#CMD [" "]
-
-
-#RUN mkdir /app/authenticate
-#RUN mkdir /app/emp
-#RUN mkdir /app/employees
-#RUN mkdir /app/home
-#RUN mkdir /app/templates
-#RUN mkdir /app/static
-#
-#COPY authenticate/* /app/authenticate
-#COPY emp/* /app/emp
-#COPY employees/* /app/employees
-#COPY home/* /app/home
-#COPY templates/* /app/templates
-#COPY static/* /app/static
-##
-#RUN rm -rf /app/*/__pycache__
-#RUN rm -rf /app/*/*.cpython*
-##
-#COPY *.py /app
-#COPY start /app
-#
-#RUN dos2unix /app/.env
-#RUN dos2unix /app/*.py
-#RUN dos2unix /app/start
-#RUN dos2unix /app/*/*
-#
-#RUN chmod +x /app/start
-#
+CMD ["bash", "start.sh"]
